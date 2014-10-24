@@ -109,6 +109,13 @@
 #include <linux/mutex.h>
 #endif
 
+#ifdef CONFIG_CPU_FREQ_GOV_BADASS_2_PHASE
+int set_two_phase_freq_badass(int cpufreq);
+#endif
+#ifdef CONFIG_CPU_FREQ_GOV_BADASS_3_PHASE
+int set_three_phase_freq_badass(int cpufreq);
+#endif
+
 static struct platform_device msm_fm_platform_init = {
 	.name = "iris_fm",
 	.id   = -1,
@@ -3179,6 +3186,13 @@ static void __init msm8960_init_hsic(void)
 		platform_device_register(&msm_device_hsic_host);
 #endif
 }
+
+#ifdef CONFIG_CPU_FREQ_GOV_BADASS_2_PHASE
+set_two_phase_freq_badass(CONFIG_CPU_FREQ_GOV_BADASS_2_PHASE_FREQ);
+#endif
+#ifdef CONFIG_CPU_FREQ_GOV_BADASS_3_PHASE	
+set_three_phase_freq_badass(CONFIG_CPU_FREQ_GOV_BADASS_3_PHASE_FREQ);
+#endif
 
 #ifdef CONFIG_ISL9519_CHARGER
 static struct isl_platform_data isl_data __initdata = {
