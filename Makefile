@@ -244,20 +244,15 @@ CONFIG_SHELL := $(shell if [ -x "$$BASH" ]; then echo $$BASH; \
 	  else echo sh; fi ; fi)
 
 GRAPHITE = -fgraphite -fgraphite-identity -floop-flatten -floop-parallelize-all -ftree-loop-linear -floop-interchange -floop-strip-mine -floop-block
-LOOPNEST = -floop-nest-optimize
 LTO = -flto -fuse-linker-plugin 
-O3 = -O3 -ffast-math -ftree-vectorize
-STRICT = -fstrict-aliasing -Wno-error=strict-aliasing -Wstrict-aliasing=3
-NOWARN = -fomit-frame-pointer -Wno-array-bounds -Wno-strict-overflow
-PIPE = -pipe
-MISC = -funsafe-math-optimizations -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -fsingle-precision-constant -funroll-loops
+O3 = -O3 -Wno-array-bounds
 MODULE = -DMODULE
 MODEXTRA = -fno-pic
 
 HOSTCC       = gcc
 HOSTCXX      = g++
-HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes $(O3) $(GRAPHITE) $(STRICT) $(MISC) $(NOWARN)
-HOSTCXXFLAGS = $(O3) $(GRAPHITE) $(STRICT) $(MISC) $(NOWARN)
+HOSTCFLAGS   = -Wall -Wmissing-prototypes -Wstrict-prototypes $(O3) $(GRAPHITE)
+HOSTCXXFLAGS = $(O3) $(GRAPHITE)
 
 # Decide whether to build built-in, modular, or both.
 # Normally, just do built-in.
@@ -358,11 +353,11 @@ CHECK		= sparse
 
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF)
-CFLAGS_MODULE   = $(MODULE) $(MODEXTRA) $(O3) $(GRAPHITE) $(STRICT) $(MISC) $(NOWARN)
-AFLAGS_MODULE   = $(MODULE) $(O3) $(GRAPHITE) $(STRICT) $(MISC) $(NOWARN)
+CFLAGS_MODULE   = $(MODULE) $(MODEXTRA) $(O3) $(GRAPHITE)
+AFLAGS_MODULE   = $(MODULE) $(O3) $(GRAPHITE)
 LDFLAGS_MODULE  =
-CFLAGS_KERNEL	= $(O3) $(GRAPHITE) $(STRICT) $(MISC) $(NOWARN)
-AFLAGS_KERNEL	= $(O3) $(GRAPHITE) $(STRICT) $(MISC) $(NOWARN)
+CFLAGS_KERNEL	= $(O3) $(GRAPHITE)
+AFLAGS_KERNEL	= $(O3) $(GRAPHITE)
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
 
@@ -568,7 +563,7 @@ endif # $(dot-config)
 # Defaults to vmlinux, but the arch makefile usually adds further targets
 all: vmlinux
 
-KBUILD_CFLAGS	+= $(O3) $(GRAPHITE) $(STRICT) $(MISC) $(NOWARN)
+KBUILD_CFLAGS	+= $(O3) $(GRAPHITE)
 
 # Tell gcc to never replace conditional load with a non-conditional one
 KBUILD_CFLAGS	+= $(call cc-option,--param=allow-store-data-races=0)
